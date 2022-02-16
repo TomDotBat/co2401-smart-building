@@ -7,7 +7,7 @@
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <ProjectGuid>{B3B66FDF-6530-4527-BB23-F6FB0D012A92}</ProjectGuid>
-        <OutputType>Exe</OutputType>
+        <OutputType>Library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>SmartBuilding.Tests</RootNamespace>
         <AssemblyName>SmartBuilding.Tests</AssemblyName>
