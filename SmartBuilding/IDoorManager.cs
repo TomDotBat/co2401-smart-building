@@ -1,6 +1,6 @@
 ﻿namespace SmartBuilding
 {
-    public interface IDoorManager : IManager
+    public interface IDoorManager
     {
         bool OpenDoor(int doorId);
         bool LockDoor(int doorId);
