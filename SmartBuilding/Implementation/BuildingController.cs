@@ -4,6 +4,8 @@ namespace SmartBuilding.Implementation
 {
     public class BuildingController : IBuildingController
     {
+        public BuildingController(string id) { }
+        
         public string GetCurrentState()
         {
             throw new NotImplementedException();
