@@ -4,8 +4,8 @@
     {
         string GetCurrentState();
         bool SetCurrentState(string state);
-        string GetBuildingID(); //bad casing but ok
-        void SetBuildingID(string id); //im fuming
+        string GetBuildingID(); //Should be GetBuildingId & SetBuildingId
+        void SetBuildingID(string id);
         string GetStatusReport();
     }
 }
