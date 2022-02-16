@@ -43,7 +43,8 @@
         <Compile Include="IEmailService.cs" />
         <Compile Include="IFireAlarmManager.cs" />
         <Compile Include="ILightManager.cs" />
-        <Compile Include="IManager.cs" />
+        <Compile Include="Implementation\BuildingController.cs" />
+        <Compile Include="Implementation\Manager.cs" />
         <Compile Include="IWebService.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
