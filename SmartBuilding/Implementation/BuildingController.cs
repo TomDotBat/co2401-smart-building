@@ -5,6 +5,8 @@ namespace SmartBuilding.Implementation
     public class BuildingController : IBuildingController
     {
         public BuildingController(string id) { }
+
+        public BuildingController(string id, string startState) { }
         
         public string GetCurrentState()
         {
