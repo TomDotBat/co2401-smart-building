@@ -7,6 +7,9 @@ namespace SmartBuilding.Implementation
         public BuildingController(string id) { }
 
         public BuildingController(string id, string startState) { }
+
+        public BuildingController(string id, ILightManager lightManager, IFireAlarmManager fireAlarmManager,
+            IDoorManager doorManager, IWebService webService, IEmailService emailService) {}
         
         public string GetCurrentState()
         {
@@ -32,5 +35,9 @@ namespace SmartBuilding.Implementation
         {
             throw new NotImplementedException();
         }
+
+        private IDoorManager _doorManager;
+        private IFireAlarmManager _fireAlarmManager;
+        private ILightManager _lightManager;
     }
 }

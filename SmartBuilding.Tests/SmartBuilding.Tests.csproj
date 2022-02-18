@@ -51,6 +51,9 @@
     </ItemGroup>
     <ItemGroup>
       <Compile Include="BuildingControllerTests.cs" />
+      <Compile Include="DoorManagerTests.cs" />
+      <Compile Include="FireAlarmManagerTests.cs" />
+      <Compile Include="LightManagerTests.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

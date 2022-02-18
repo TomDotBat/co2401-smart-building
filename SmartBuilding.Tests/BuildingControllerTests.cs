@@ -19,22 +19,22 @@ namespace SmartBuilding.Tests
         public void WhenConstructor_SetsBuildingID_AsLowerCase()
         {
             #region Arrange
-            
+
             string testId = "BUILD-100";
             string expectedId = "build-100";
 
             #endregion
 
             #region Act
-            
+
             IBuildingController buildingController = new BuildingController(testId);
-            
+
             #endregion
 
             #region Assert
 
             Assert.AreEqual(expectedId, buildingController.GetBuildingID());
-            
+
             #endregion
         }
 
@@ -48,7 +48,7 @@ namespace SmartBuilding.Tests
         public void WhenSetBuildingID_SetsBuildingID_AsLowerCase()
         {
             #region Arrange
-            
+
             string testId = "BUILD-100";
             string expectedId = "build-100";
             IBuildingController buildingController = new BuildingController("BUILD-000");
@@ -56,15 +56,15 @@ namespace SmartBuilding.Tests
             #endregion
 
             #region Act
-            
+
             buildingController.SetBuildingID(testId);
-            
+
             #endregion
 
             #region Assert
 
             Assert.AreEqual(expectedId, buildingController.GetBuildingID());
-            
+
             #endregion
         }
 
@@ -81,11 +81,11 @@ namespace SmartBuilding.Tests
             #region Arrange
 
             string expectedState = "out of hours";
-            
+
             #endregion
 
             #region Act
-            
+
             IBuildingController buildingController = new BuildingController("BUILD-100");
 
             #endregion
@@ -96,7 +96,7 @@ namespace SmartBuilding.Tests
 
             #endregion
         }
-        
+
         /// <summary>
         /// L1R7 & L1R6
         ///
@@ -116,7 +116,7 @@ namespace SmartBuilding.Tests
 
             foreach (string validState in validStates)
             {
-                
+
                 #region Assert
 
                 Assert.IsTrue(buildingController.SetCurrentState(validState));
@@ -127,7 +127,7 @@ namespace SmartBuilding.Tests
 
             #endregion
         }
-        
+
         /// <summary>
         /// L1R7 & L1R6
         /// 
@@ -145,20 +145,20 @@ namespace SmartBuilding.Tests
 
             #region Act
 
-            bool returnedState = buildingController.SetCurrentState(invalidState);
+            bool actualState = buildingController.SetCurrentState(invalidState);
 
             #endregion
 
             #region Assert
 
-            Assert.IsFalse(returnedState);
+            Assert.IsFalse(actualState);
             Assert.AreNotEqual(invalidState, buildingController.GetCurrentState());
 
             #endregion
         }
-        
+
         #endregion
-        
+
         #region Level 2 Requirements
 
         /// <summary>
@@ -182,9 +182,17 @@ namespace SmartBuilding.Tests
                 ("open", true),
                 ("open", true),
                 ("closed", false), //Can't change from open to closed
+                ("out of hours", true),
+                ("fire drill", true),
+                ("fire alarm", true),
+                ("closed", false), //Must change back to the state before the fire drill
+                ("out of hours", true),
+                ("fire alarm", true),
+                ("open", false), //Must change back to the state before the fire alarm
+                ("fire drill", true),
                 ("out of hours", true)
             };
-            
+
             IBuildingController buildingController = new BuildingController("BUILD-100");
 
             #endregion
@@ -196,7 +204,7 @@ namespace SmartBuilding.Tests
                 string initialState = buildingController.GetCurrentState();
 
                 #region Assert
-                
+
                 //Perform the state change and check if it's the value we expected
                 Assert.AreEqual(stateChange.Item2, buildingController.SetCurrentState(stateChange.Item1));
 
@@ -205,13 +213,13 @@ namespace SmartBuilding.Tests
                 {
                     Assert.AreEqual(stateChange.Item2, buildingController.GetCurrentState());
                 }
-                
+
                 #endregion
             }
 
             #endregion
         }
-        
+
         /// <summary>
         /// L2R3 & L1R2 & L1R6
         ///
@@ -222,26 +230,26 @@ namespace SmartBuilding.Tests
         public void WhenConstructor_SetsBuildingIDAndCurrentState()
         {
             #region Arrange
-            
+
             string testId = "BUILD-100";
             string expectedId = "build-100";
 
             string testState = "OPEN";
             string expectedState = "open";
-            
+
             #endregion
 
             #region Act
-            
+
             IBuildingController buildingController = new BuildingController(testId, testState);
-            
+
             #endregion
 
             #region Assert
 
             Assert.AreEqual(expectedId, buildingController.GetBuildingID());
             Assert.AreEqual(expectedState, buildingController.GetCurrentState());
-            
+
             #endregion
         }
 
@@ -255,15 +263,13 @@ namespace SmartBuilding.Tests
         public void WhenConstructor_SetsInvalidCurrentState_ThrowsArgumentException()
         {
             #region Arrange
-            
+
             string testId = "BUILD-100";
             string testState = "invalid";
-            
+
             #endregion
 
-            #region Act
-            
-            #region Assert
+            #region Act & Assert
 
             ArgumentException exception = Assert.Throws<ArgumentException>(() =>
             {
@@ -275,12 +281,56 @@ namespace SmartBuilding.Tests
                 Assert.Equals(exception.Message,
                     "Argument Exception: BuildingController can only be initialised to the following states 'open', 'closed', 'out of hours'");
             }
-            
-            #endregion
 
             #endregion
         }
-        
+
+        #endregion
+
+        #region Level 3 Requirements
+
+        /// <summary>
+        /// L3R1
+        ///
+        /// Test that...
+        /// </summary>
+        [Test]
+        public void WhenConstructor()
+        {
+            string testId = "BUILD-100";
+        }
+
+
+        /// <summary>
+        /// L3R3
+        ///
+        /// Test that GetStatusReport returns the correct output.
+        /// </summary>
+        [Test]
+        public void WhenGetStatusReport_IsCalled_ReturnsExpectedOutput()
+        {
+            
+            #region Arrange
+
+            string expectedOutput = "Lights,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,Doors,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,FireAlarm,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,";
+            string testId = "BUILD-100";
+            IBuildingController buildingController = new BuildingController(testId);
+
+            #endregion
+
+            #region Act
+
+            string output = buildingController.GetStatusReport();
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(expectedOutput, output);
+
+            #endregion
+        }
+
         #endregion
     }
 }
