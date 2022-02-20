@@ -38,12 +38,20 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="IDevice.cs" />
+        <Compile Include="IDoor.cs" />
         <Compile Include="IDoorManager.cs" />
         <Compile Include="IEmailService.cs" />
+        <Compile Include="IFireAlarm.cs" />
         <Compile Include="IFireAlarmManager.cs" />
+        <Compile Include="ILight.cs" />
         <Compile Include="ILightManager.cs" />
         <Compile Include="IManager.cs" />
         <Compile Include="Implementation\BuildingController.cs" />
+        <Compile Include="Implementation\DoorManager.cs" />
+        <Compile Include="Implementation\FireAlarmManager.cs" />
+        <Compile Include="Implementation\LightManager.cs" />
+        <Compile Include="Implementation\Manager.cs" />
         <Compile Include="IWebService.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
