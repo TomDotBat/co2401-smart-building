@@ -7,5 +7,6 @@
     {
         string GetStatus();
         bool SetEngineerRequired(bool needsEngineer);
+        void RegisterDevice(IDevice device);
     }
 }

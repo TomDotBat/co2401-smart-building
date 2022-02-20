@@ -41,10 +41,18 @@
         <Compile Include="IDevice.cs" />
         <Compile Include="IDoorManager.cs" />
         <Compile Include="IEmailService.cs" />
+        <Compile Include="IFireAlarm.cs" />
         <Compile Include="IFireAlarmManager.cs" />
+        <Compile Include="ILight.cs" />
         <Compile Include="ILightManager.cs" />
         <Compile Include="IManager.cs" />
         <Compile Include="Implementation\BuildingController.cs" />
+<<<<<<< HEAD
+=======
+        <Compile Include="Implementation\DoorManager.cs" />
+        <Compile Include="Implementation\FireAlarmManager.cs" />
+        <Compile Include="Implementation\LightManager.cs" />
+>>>>>>> 226acce380c9e15eb8b2a28d6af7afbc5360685c
         <Compile Include="Implementation\Manager.cs" />
         <Compile Include="IWebService.cs" />
     </ItemGroup>

@@ -92,6 +92,15 @@ namespace SmartBuilding.Implementation
             _devices.Add(device);
         }
 
+        /// <summary>
+        /// Registers a device as a managed device.
+        /// </summary>
+        /// <param name="device">The device to manage.</param>
+        public void RegisterDevice(IDevice device)
+        {
+            _devices.Add(device);
+        }
+
         protected readonly string DeviceType;
         // ReSharper disable once InconsistentNaming
         protected bool engineerRequired;
