@@ -44,9 +44,6 @@
         <Compile Include="ILightManager.cs" />
         <Compile Include="IManager.cs" />
         <Compile Include="Implementation\BuildingController.cs" />
-        <Compile Include="Implementation\DoorManager.cs" />
-        <Compile Include="Implementation\FireAlarmManager.cs" />
-        <Compile Include="Implementation\LightManager.cs" />
         <Compile Include="IWebService.cs" />
         <Compile Include="Program.cs" />
     </ItemGroup>
