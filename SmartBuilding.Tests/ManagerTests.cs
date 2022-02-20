@@ -24,11 +24,7 @@ namespace SmartBuilding.Tests
             
             // Create a device manager with the device type "TestDevice".
             string deviceType = "TestDevice";
-<<<<<<< HEAD
             Manager manager = Substitute.For<Manager>(deviceType);
-=======
-            Manager<IDevice> manager = Substitute.For<Manager<IDevice>>(deviceType);
->>>>>>> 226acce380c9e15eb8b2a28d6af7afbc5360685c
             
             // Register 3 devices, the first and last being normal, the
             // middle being a faulty device.
