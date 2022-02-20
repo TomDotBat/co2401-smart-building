@@ -6,15 +6,14 @@ namespace SmartBuilding.Implementation
     {
         public string GetStatus()
         {
-            return "Lights,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,";
+            throw new NotImplementedException();
         }
-        
+
         public bool SetEngineerRequired(bool needsEngineer)
         {
-            _engineerRequired = needsEngineer;
-            return true;
+            throw new NotImplementedException();
         }
-        
+
         public void SetLight(bool isOn, int lightId)
         {
             throw new NotImplementedException();
@@ -24,7 +23,5 @@ namespace SmartBuilding.Implementation
         {
             throw new NotImplementedException();
         }
-
-        private bool _engineerRequired;
     }
 }

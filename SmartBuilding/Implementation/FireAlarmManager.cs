@@ -6,20 +6,17 @@ namespace SmartBuilding.Implementation
     {
         public string GetStatus()
         {
-            return "FireAlarm,OK,OK,OK,OK,OK,OK,OK,OK,OK,OK,";
+            throw new NotImplementedException();
         }
-        
+
         public bool SetEngineerRequired(bool needsEngineer)
-        {
-            _engineerRequired = needsEngineer;
-            return true;
-        }
-        
-        public void SetAlarm(bool isActive)
         {
             throw new NotImplementedException();
         }
 
-        private bool _engineerRequired;
+        public void SetAlarm(bool isActive)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
