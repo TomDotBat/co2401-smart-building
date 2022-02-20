@@ -65,7 +65,6 @@ namespace SmartBuilding.Implementation
         public BuildingController(string id, ILightManager lightManager, IFireAlarmManager fireAlarmManager,
             IDoorManager doorManager, IWebService webService, IEmailService emailService) : this(id)
         {
-
             // Store the implementations of the dependencies
             this._lightManager = lightManager;
             this._doorManager = doorManager;
