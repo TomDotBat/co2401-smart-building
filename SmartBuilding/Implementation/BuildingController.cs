@@ -66,11 +66,11 @@ namespace SmartBuilding.Implementation
             IDoorManager doorManager, IWebService webService, IEmailService emailService) : this(id)
         {
             // Store the implementations of the dependencies
-            this._lightManager = lightManager;
-            this._doorManager = doorManager;
-            this._fireAlarmManager = fireAlarmManager;
-            this._webService = webService;
-            this._emailService = emailService;
+            _lightManager = lightManager;
+            _doorManager = doorManager;
+            _fireAlarmManager = fireAlarmManager;
+            _webService = webService;
+            _emailService = emailService;
         }
 
         /// <summary>
