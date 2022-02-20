@@ -1,6 +1,5 @@
 ﻿using System;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using NUnit.Framework;
 using SmartBuilding.Implementation;
 
