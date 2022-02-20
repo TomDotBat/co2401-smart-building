@@ -2,7 +2,7 @@
 
 namespace SmartBuilding.Implementation
 {
-    public abstract class Manager : IManager
+    public abstract class Manager<T> : IManager<T> where T : IDevice
     {
         /// <summary>
         /// Instantiates a Manager with a device type used by GetStatus().
@@ -14,6 +14,7 @@ namespace SmartBuilding.Implementation
             // and default engineerRequired to false.
             DeviceType = deviceType;
             engineerRequired = false;
+            _devices = new List<IDevice>();
         }
 
         /// <summary>
@@ -47,6 +48,15 @@ namespace SmartBuilding.Implementation
             }
 
             return statusString;
+        }
+
+        /// <summary>
+        /// Registers a device as a managed device.
+        /// </summary>
+        /// <param name="device">The device to manage.</param>
+        public void RegisterDevice(IDevice device)
+        {
+            _devices.Add(device);
         }
 
         protected readonly string DeviceType;

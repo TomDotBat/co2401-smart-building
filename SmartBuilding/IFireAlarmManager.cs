@@ -1,7 +1,7 @@
 ﻿namespace SmartBuilding
 {
-    public interface IFireAlarmManager : IManager
+    public interface IFireAlarmManager : IManager<IFireAlarm>
     {
-    void SetAlarm(bool isActive);
+        void SetAlarm(bool isActive);
     }
 }

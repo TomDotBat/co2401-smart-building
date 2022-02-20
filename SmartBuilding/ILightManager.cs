@@ -1,8 +1,8 @@
 ﻿namespace SmartBuilding
 {
-    public interface ILightManager : IManager
+    public interface ILightManager : IManager<ILight>
     {
-    void SetLight(bool isOn, int lightID);
-    void SetAllLights(bool isOn);
+        void SetLight(bool isOn, int lightID);
+        void SetAllLights(bool isOn);
     }
 }

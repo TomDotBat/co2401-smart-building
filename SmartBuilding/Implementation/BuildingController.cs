@@ -12,6 +12,11 @@ namespace SmartBuilding.Implementation
         /// <exception cref="ApplicationException">Thrown when the ID is an empty string or whitespace.</exception>
         public BuildingController(string id)
         {
+            // Create instances of the BuildingController's dependent classes.
+            _lightManager = new LightManager();
+            _doorManager = new DoorManager();
+            _fireAlarmManager = new FireAlarmManager();
+            
             // Call SetBuildingID with the given ID to eliminate repeated code.
             SetBuildingID(id);
             
@@ -237,21 +242,25 @@ namespace SmartBuilding.Implementation
         /// <returns>The status of each manager combined.</returns>
         public string GetStatusReport()
         {
-            // Add the device managers into an array that we can
-            // loop through easily.
-            IManager[] deviceManagers = {_lightManager, _doorManager, _fireAlarmManager};
+            // Get the status string from each device manager and add
+            // them to an array.
+            string[] deviceManagerStatuses =
+            {
+                _lightManager.GetStatus(),
+                _doorManager.GetStatus(),
+                _fireAlarmManager.GetStatus()
+            };
 
             // Start generating the status report and look for faults.
             string statusReport = "";
             string faultString = "";
             
-            // Iterate over each manager and append their status
-            // string to the report.
-            foreach (IManager manager in deviceManagers)
+            // Iterate over each manager's status string
+            foreach (string statusString in deviceManagerStatuses)
             {
-                // Split the manager's status string into a list
-                // of comma seperated values.
-                string[] statusList = manager.GetStatus().Split(',');
+                // Split the manager's status string into a list of
+                // comma seperated values.
+                string[] statusList = statusString.Split(',');
                 
                 // Extract the name of the manager from the status string.
                 string managerName = statusList[0];
@@ -268,7 +277,7 @@ namespace SmartBuilding.Implementation
                     }
                 }
                 
-                statusReport += manager.GetStatus();
+                statusReport += statusString;
             }
 
             // If the fault string isn't empty we should report it
