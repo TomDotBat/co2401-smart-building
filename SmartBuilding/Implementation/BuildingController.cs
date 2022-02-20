@@ -12,17 +12,10 @@ namespace SmartBuilding.Implementation
         /// <exception cref="ApplicationException">Thrown when the ID is an empty string or whitespace.</exception>
         public BuildingController(string id)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException(nameof(id), "Argument Null Exception: BuildingController must be initialised with a valid ID.");
-            }
+            // Call SetBuildingID with the given ID to eliminate repeated code.
+            SetBuildingID(id);
             
-            if (String.IsNullOrWhiteSpace(id))
-            {
-                throw new ArgumentException("Argument Exception: BuildingController must be initialised with a valid ID.");
-            }
-
-            buildingID = id.ToLower();
+            // Set the initial value of currentState to "out of hours".
             currentState = "out of hours";
         }
 
@@ -35,13 +28,17 @@ namespace SmartBuilding.Implementation
         /// <exception cref="ArgumentException">Thrown when the ID is an empty string or whitespace or when the state is not 'open', 'closed' or 'out of hours'.</exception>
         public BuildingController(string id, string startState) : this(id)
         {
+            // The start state is null, throw an exception.
             if (startState == null)
             {
-                throw new ArgumentNullException(nameof(startState), "Argument Null Exception: BuildingController must be initialised with a valid startState.");
+                throw new ArgumentNullException(nameof(startState), "Argument Null Exception: Start state cannot be initialised to null.");
             }
 
+            // Convert the start state to lower case.
             startState = startState.ToLower();
             
+            // If the start state is valid, set the currentState variable to it.
+            // Throw an exception if the start state is invalid.
             switch (startState)
             {
                 case "open":
@@ -66,13 +63,16 @@ namespace SmartBuilding.Implementation
         public BuildingController(string id, ILightManager lightManager, IFireAlarmManager fireAlarmManager,
             IDoorManager doorManager, IWebService webService, IEmailService emailService) : this(id)
         {
+            // Store the managers in the deviceManagers array with the
+            // following order: Lights, Door, Fire alarm.
             _deviceManagers = new IManager[]
             {
                 lightManager, doorManager, fireAlarmManager
             };
 
-            this.webService = webService;
-            this.emailService = emailService;
+            // Store the implementations of IWebService and IEmailService.
+            this._webService = webService;
+            this._emailService = emailService;
         }
 
         /// <summary>
@@ -90,16 +90,19 @@ namespace SmartBuilding.Implementation
         /// <param name="id">The new value of the buildingID variable.</param>
         public void SetBuildingID(string id)
         {
+            // The ID is null, throw an exception.
             if (id == null)
             {
-                throw new ArgumentNullException(nameof(id), "Argument Null Exception: SetBuildingID() must be provided a valid ID.");
+                throw new ArgumentNullException(nameof(id), "Argument Null Exception: Building ID must be present.");
             }
             
+            // The ID is an empty string/whitespace, throw an exception.
             if (String.IsNullOrWhiteSpace(id))
             {
-                throw new ArgumentException("Argument Exception: SetBuildingID() must be provided a valid ID.");
+                throw new ArgumentException("Argument Exception: Building ID cannot be empty or whitespace.");
             }
             
+            // Convert the ID to lower case and store it in buildingID.
             buildingID = id.ToLower();
         }
         
@@ -122,10 +125,14 @@ namespace SmartBuilding.Implementation
             throw new NotImplementedException();
         }
 
+        // ReSharper disable once InconsistentNaming
         private string buildingID;
         private string currentState;
+
+        private string _lastNormalState;
+        
         private IManager[] _deviceManagers;
-        private IWebService webService;
-        private IEmailService emailService;
+        private IWebService _webService;
+        private IEmailService _emailService;
     }
 }
