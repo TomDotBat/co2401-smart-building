@@ -50,7 +50,6 @@ namespace SmartBuilding.Implementation
         }
 
         protected readonly string DeviceType;
-        
         // ReSharper disable once InconsistentNaming
         protected bool engineerRequired;
         // ReSharper disable once InconsistentNaming
