@@ -2,7 +2,7 @@
 
 namespace SmartBuilding.Implementation
 {
-    public class BuildingController : IBuildingController
+    public class BuildingController
     {
         public BuildingController(string id) { }
 
@@ -36,8 +36,6 @@ namespace SmartBuilding.Implementation
             throw new NotImplementedException();
         }
 
-        private IDoorManager _doorManager;
-        private IFireAlarmManager _fireAlarmManager;
-        private ILightManager _lightManager;
+        private IManager[] _deviceManagers;
     }
 }
