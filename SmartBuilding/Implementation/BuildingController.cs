@@ -300,10 +300,10 @@ namespace SmartBuilding.Implementation
 
         private string _lastNormalState;
 
-        private ILightManager _lightManager;
-        private IDoorManager _doorManager;
-        private IFireAlarmManager _fireAlarmManager;
-        private IWebService _webService;
-        private IEmailService _emailService;
+        private readonly ILightManager _lightManager;
+        private readonly IDoorManager _doorManager;
+        private readonly IFireAlarmManager _fireAlarmManager;
+        private readonly IWebService _webService;
+        private readonly IEmailService _emailService;
     }
 }
