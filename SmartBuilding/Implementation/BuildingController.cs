@@ -60,17 +60,16 @@ namespace SmartBuilding.Implementation
         /// <param name="doorManager">An implementation of IDoorManager.</param>
         /// <param name="webService">An implementation of IWebService.</param>
         /// <param name="emailService">An implementation of IEmailService.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the ID is null.</exception>
+        /// <exception cref="ApplicationException">Thrown when the ID is an empty string or whitespace.</exception>
         public BuildingController(string id, ILightManager lightManager, IFireAlarmManager fireAlarmManager,
             IDoorManager doorManager, IWebService webService, IEmailService emailService) : this(id)
         {
-            // Store the managers in the deviceManagers array with the
-            // following order: Lights, Door, Fire alarm.
-            _deviceManagers = new IManager[]
-            {
-                lightManager, doorManager, fireAlarmManager
-            };
 
-            // Store the implementations of IWebService and IEmailService.
+            // Store the implementations of the dependencies
+            this._lightManager = lightManager;
+            this._doorManager = doorManager;
+            this._fireAlarmManager = fireAlarmManager;
             this._webService = webService;
             this._emailService = emailService;
         }
@@ -130,8 +129,10 @@ namespace SmartBuilding.Implementation
         private string currentState;
 
         private string _lastNormalState;
-        
-        private IManager[] _deviceManagers;
+
+        private ILightManager _lightManager;
+        private IDoorManager _doorManager;
+        private IFireAlarmManager _fireAlarmManager;
         private IWebService _webService;
         private IEmailService _emailService;
     }
