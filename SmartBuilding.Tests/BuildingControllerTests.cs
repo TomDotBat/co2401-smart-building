@@ -8,6 +8,25 @@ namespace SmartBuilding.Tests
     [TestFixture]
     public class BuildingControllerTests
     {
+        private ILightManager _lightManager;
+        private IDoorManager _doorManager;
+        private IFireAlarmManager _fireAlarmManager;
+        private IWebService _webService;
+        private IEmailService _emailService;
+        
+        /// <summary>
+        /// Create substitutes of the dependencies for BuildingController.
+        /// </summary>
+        [SetUp]
+        public void SetUp()
+        {
+            _lightManager = Substitute.For<ILightManager>();
+            _doorManager = Substitute.For<IDoorManager>();
+            _fireAlarmManager = Substitute.For<IFireAlarmManager>();
+            _webService = Substitute.For<IWebService>();
+            _emailService = Substitute.For<IEmailService>();
+        }
+        
         #region Tests for Constructor(id)
         
         /// <summary>
@@ -349,14 +368,6 @@ namespace SmartBuilding.Tests
             // Provide a valid building ID to test with.
             string testId = "building-100";
             
-            // Create substitutes of the required interfaces
-            // with NSubstitute.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
-
             #endregion
 
             #region Act
@@ -365,7 +376,7 @@ namespace SmartBuilding.Tests
             // dependency injected substitute classes.
             
             // ReSharper disable once ObjectCreationAsStatement
-            new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
 
             #endregion
         }
@@ -530,16 +541,9 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
-            // Create a substitute of IDoorManager that always opens
+            // Set the substitute of IDoorManager to always open
             // all doors successfully so the open state can be reached.
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            doorManager.OpenAllDoors().Returns(true);
-            
-            // Create substitutes of the other BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
+            _doorManager.OpenAllDoors().Returns(true);
             
             // If we call SetCurrentState() with a valid state we can expect
             // it to be the same when we get it with GetCurrentState().
@@ -548,7 +552,7 @@ namespace SmartBuilding.Tests
 
             // Create an instance of BuildingController.
             string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
 
             #endregion
 
@@ -597,20 +601,13 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
-            // Create a substitute of IDoorManager that always opens
+            // Set the substitute of IDoorManager to always open
             // all doors successfully so the open state can be reached.
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            doorManager.OpenAllDoors().Returns(true);
-            
-            // Create substitutes of the other BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
+            _doorManager.OpenAllDoors().Returns(true);
             
             // Create a BuildingController.
             string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
 
@@ -630,6 +627,7 @@ namespace SmartBuilding.Tests
 
             #endregion
         }
+        
         /// <summary>
         /// Test for requirements L2R2 and L1R7.
         ///
@@ -680,21 +678,14 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
-            // Create a substitute of IDoorManager that returns
+            // Set the substitute of IDoorManager to return
             // the desired success value.
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            doorManager.OpenAllDoors().Returns(openedSuccessfully);
-
-            // Create substitutes of the other BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
+            _doorManager.OpenAllDoors().Returns(openedSuccessfully);
             
             // Create a BuildingController.
             string testId = "building-100";
             string testState = "open";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
 
@@ -709,7 +700,7 @@ namespace SmartBuilding.Tests
             #region Assert
 
             // Ensure DoorManager.OpenAllDoors() was called.
-            doorManager.Received().OpenAllDoors();
+            _doorManager.Received().OpenAllDoors();
             
             // The result of SetCurrentState("open") should be
             // whether or not the doors opened successfully.
@@ -735,18 +726,11 @@ namespace SmartBuilding.Tests
         public void SetCurrentState_WhenGivenClosed_LocksAllDoorsAndTurnsOffAllLights()
         {
             #region Arrange
-
-            // Create substitutes of the BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
             
             // Create a BuildingController.
             string testId = "building-100";
             string testState = "closed";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
 
@@ -765,8 +749,8 @@ namespace SmartBuilding.Tests
             
             // Check that all doors were locked and all of the
             // lights were turned off.
-            doorManager.Received().LockAllDoors();
-            lightManager.Received().SetAllLights(false);
+            _doorManager.Received().LockAllDoors();
+            _lightManager.Received().SetAllLights(false);
 
             #endregion
         }
@@ -782,18 +766,11 @@ namespace SmartBuilding.Tests
         public void SetCurrentState_WhenGivenFireAlarm_StartsAlarmAndOpensAllDoors()
         {
             #region Arrange
-
-            // Create substitutes of the BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
             
             // Create a BuildingController.
             string testId = "building-100";
             string testState = "fire alarm";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
             
@@ -812,10 +789,10 @@ namespace SmartBuilding.Tests
             // Check that the alarm was enabled, all doors were opened,
             // all lights were turned on and the alarm was logged with the
             // WebService.
-            fireAlarmManager.Received().SetAlarm(true);
-            doorManager.Received().OpenAllDoors();
-            lightManager.Received().SetAllLights(true);
-            webService.Received().LogFireAlarm("fire alarm");
+            _fireAlarmManager.Received().SetAlarm(true);
+            _doorManager.Received().OpenAllDoors();
+            _lightManager.Received().SetAllLights(true);
+            _webService.Received().LogFireAlarm("fire alarm");
 
             #endregion
         }
@@ -831,25 +808,17 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
             
-            // Create a substitute of IWebService throws an Exception
+            // Set the substitute of IWebService to throw an Exception
             // when calling LogFireAlarm().
-            IWebService webService = Substitute.For<IWebService>();
-            
             Exception exception = new Exception("This is a test Exception.");
-            webService
+            _webService
                 .When(service => service.LogFireAlarm("fire alarm"))
                 .Do((info => throw exception));
-            
-            // Create substitutes of the other BuildingController dependencies.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            IEmailService emailService = Substitute.For<IEmailService>();
             
             // Create a BuildingController.
             string testId = "building-100";
             string testState = "fire alarm";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
 
             #endregion
             
@@ -868,13 +837,13 @@ namespace SmartBuilding.Tests
             // Check that the alarm was enabled, all doors were opened,
             // all lights were turned on and the alarm was logged with the
             // WebService.
-            fireAlarmManager.Received().SetAlarm(true);
-            doorManager.Received().OpenAllDoors();
-            lightManager.Received().SetAllLights(true);
-            webService.Received().LogFireAlarm("fire alarm");
+            _fireAlarmManager.Received().SetAlarm(true);
+            _doorManager.Received().OpenAllDoors();
+            _lightManager.Received().SetAllLights(true);
+            _webService.Received().LogFireAlarm("fire alarm");
             
             // Check that an email was sent using EmailService.
-            emailService.Received().SendMail(
+            _emailService.Received().SendMail(
                 "smartbuilding@uclan.ac.uk", 
                 "failed to log alarm",
                 exception.Message
@@ -934,28 +903,19 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
-            // Create substitutes of the managers that return a status string
+            // Set the substitutes of the managers to return a status string
             // in the required format.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            lightManager.GetStatus().Returns("Lights,OK,OK,OK,");
-            
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            doorManager.GetStatus().Returns("Doors,OK,OK,OK,");
-            
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            fireAlarmManager.GetStatus().Returns("FireAlarm,OK,OK,OK,");
+            _lightManager.GetStatus().Returns("Lights,OK,OK,OK,");
+            _doorManager.GetStatus().Returns("Doors,OK,OK,OK,");
+            _fireAlarmManager.GetStatus().Returns("FireAlarm,OK,OK,OK,");
 
             // We can expect the report to be the status strings joined
             // together like this.
             string expectedReport = "Lights,OK,OK,OK,Doors,OK,OK,OK,FireAlarm,OK,OK,OK,";
-            
-            // Create substitutes of the other BuildingController dependencies.
-            IWebService webService = Substitute.For<IWebService>();
-            IEmailService emailService = Substitute.For<IEmailService>();
-            
+
             // Create a BuildingController.
             string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
 
@@ -969,9 +929,9 @@ namespace SmartBuilding.Tests
             #region Assert
 
             // Ensure GetStatus() was called on every manager.
-            lightManager.Received().GetStatus();
-            doorManager.Received().GetStatus();
-            fireAlarmManager.Received().GetStatus();
+            _lightManager.Received().GetStatus();
+            _doorManager.Received().GetStatus();
+            _fireAlarmManager.Received().GetStatus();
             
             // Ensure the generated report is what we expected.
             Assert.AreEqual(expectedReport, actualReport);
@@ -997,32 +957,23 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
            
-            // Create substitutes of the managers that return the given
-            // status string.
-            ILightManager lightManager = Substitute.For<ILightManager>();
-            lightManager.GetStatus().Returns(lightReport);
-            
-            IDoorManager doorManager = Substitute.For<IDoorManager>();
-            doorManager.GetStatus().Returns(doorReport);
-            
-            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
-            fireAlarmManager.GetStatus().Returns(fireAlarmReport);
+            // Set the substitutes of the managers to return the
+            // given status string.
+            _lightManager.GetStatus().Returns(lightReport);
+            _doorManager.GetStatus().Returns(doorReport);
+            _fireAlarmManager.GetStatus().Returns(fireAlarmReport);
 
-            // Create a substitute of IWebService that allows us to get the
+            // Set the substitute of IWebService up to allow us to get the
             // log details provided from BuildingController.
             string actualLogDetails = "";
-            IWebService webService = Substitute.For<IWebService>();
-            webService.LogEngineerRequired(Arg.Do<string>(logDetails =>
+            _webService.LogEngineerRequired(Arg.Do<string>(logDetails =>
             {
                 actualLogDetails = logDetails;
             }));
-
-            // Create substitutes of the other BuildingController dependencies.
-            IEmailService emailService = Substitute.For<IEmailService>();
             
             // Create a BuildingController.
             string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
             
             #endregion
             
