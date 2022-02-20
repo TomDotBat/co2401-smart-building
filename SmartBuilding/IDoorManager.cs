@@ -2,8 +2,8 @@
 {
     public interface IDoorManager : IManager
     {
-        bool OpenDoor(int doorId);
-        bool LockDoor(int doorId);
+        bool OpenDoor(int doorID);
+        bool LockDoor(int doorID);
         bool OpenAllDoors();
         bool LockAllDoors();
     }
