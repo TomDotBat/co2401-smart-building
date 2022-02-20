@@ -1,5 +1,8 @@
 ﻿namespace SmartBuilding
 {
+    /// <summary>
+    /// Interface definition for the Manager class.
+    /// </summary>
     public interface IManager
     {
         string GetStatus();

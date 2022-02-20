@@ -5,6 +5,9 @@ using SmartBuilding.Implementation;
 
 namespace SmartBuilding.Tests
 {
+    /// <summary>
+    /// Unit tests for the BuildingController class.
+    /// </summary>
     [TestFixture]
     public class BuildingControllerTests
     {

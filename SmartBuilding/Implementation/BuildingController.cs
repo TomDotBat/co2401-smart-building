@@ -2,6 +2,9 @@
 
 namespace SmartBuilding.Implementation
 {
+    /// <summary>
+    /// Class to control the state of a building and its managed devices.
+    /// </summary>
     public class BuildingController
     {
         /// <summary>
