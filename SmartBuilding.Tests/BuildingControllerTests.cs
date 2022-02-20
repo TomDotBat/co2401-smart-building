@@ -507,7 +507,7 @@ namespace SmartBuilding.Tests
 
             // Assert SetBuildingID() throws an ArgumentNullException
             // when given null.
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 // ReSharper disable once ExpressionIsAlwaysNull
                 buildingController.SetBuildingID(testId);
