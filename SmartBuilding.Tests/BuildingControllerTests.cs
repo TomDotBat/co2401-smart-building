@@ -234,13 +234,19 @@ namespace SmartBuilding.Tests
             
             #region Act
             
-            // Construct a BuildingController with our test state and get
-            // the converted value with GetCurrentState().
-            ArgumentException argumentException = Assert.Throws<ArgumentException>(() =>
+            // Construct a BuildingController with our test state and catch
+            // an ArgumentException if possible.
+            ArgumentException argumentException = null;
+            
+            try
             {
                 // ReSharper disable once ObjectCreationAsStatement
                 new BuildingController(testId, testState);
-            });
+            }
+            catch (ArgumentException ex)
+            {
+                argumentException = ex;
+            }
 
             // If an ArgumentException is thrown, ensure it has the correct message.
             if (argumentException != null)
