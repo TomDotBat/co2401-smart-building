@@ -74,6 +74,20 @@ namespace SmartBuilding.Implementation
             this.webService = webService;
             this.emailService = emailService;
         }
+
+        /// <summary>
+        /// Gets the ID of the building.
+        /// </summary>
+        /// <returns>The value of the buildingID variable.</returns>
+        public string GetBuildingID()
+        {
+            return buildingID;
+        }
+        
+        public void SetBuildingID(string id)
+        {
+            throw new NotImplementedException();
+        }
         
         /// <summary>
         /// Gets the current state of the building.
@@ -85,20 +99,6 @@ namespace SmartBuilding.Implementation
         }
 
         public bool SetCurrentState(string state)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the ID of the building.
-        /// </summary>
-        /// <returns>The value of the buildingID variable.</returns>
-        public string GetBuildingID()
-        {
-            return buildingID;
-        }
-
-        public void SetBuildingID(string id)
         {
             throw new NotImplementedException();
         }
