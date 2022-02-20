@@ -629,6 +629,63 @@ namespace SmartBuilding.Tests
         }
         
         /// <summary>
+        /// Test for requirements L2R1 and L1R7.
+        ///
+        /// SetCurrentState() should only allow state changes according to
+        /// the state transition diagram.
+        /// SetCurrentState() should return false and stay the same state
+        /// if called with an invalid state change.
+        /// </summary>
+        [TestCase("open", "fire drill", "open", ExpectedResult = true)]
+        [TestCase("out of hours", "fire drill", "out of hours", ExpectedResult = true)]
+        [TestCase("closed", "fire drill", "closed", ExpectedResult = true)]
+        [TestCase("open", "fire drill", "closed", ExpectedResult = false)]
+        [TestCase("out of hours", "fire drill", "open", ExpectedResult = false)]
+        [TestCase("closed", "fire drill", "out of hours", ExpectedResult = false)]
+        [TestCase("open", "fire drill", "invalid", ExpectedResult = false)]
+        [TestCase("open", "fire alarm", "open", ExpectedResult = true)]
+        [TestCase("out of hours", "fire alarm", "out of hours", ExpectedResult = true)]
+        [TestCase("closed", "fire alarm", "closed", ExpectedResult = true)]
+        [TestCase("open", "fire alarm", "closed", ExpectedResult = false)]
+        [TestCase("out of hours", "fire alarm", "open", ExpectedResult = false)]
+        [TestCase("closed", "fire alarm", "out of hours", ExpectedResult = false)]
+        [TestCase("open", "fire alarm", "invalid", ExpectedResult = false)]
+        [TestCase("open", "fire drill", "fire alarm", ExpectedResult = false)]
+        [TestCase("open", "fire alarm", "fire drill", ExpectedResult = false)]
+        public bool SetCurrentState_WhenGivenInvalidChangeFromFireAlarmOrDrill_ReturnsFalse(string state1,
+            string state2, string state3)
+        {
+            #region Arrange
+
+            // Set the substitute of IDoorManager to always open
+            // all doors successfully so the open state can be reached.
+            _doorManager.OpenAllDoors().Returns(true);
+            
+            // Create a BuildingController.
+            string testId = "building-100";
+            BuildingController buildingController = new BuildingController(testId, _lightManager, _fireAlarmManager, _doorManager, _webService, _emailService);
+            
+            #endregion
+
+            #region Act
+            
+            // Change the state in the order provided.
+            buildingController.SetCurrentState(state1);
+            buildingController.SetCurrentState(state2);
+            bool success = buildingController.SetCurrentState(state3);
+
+            #endregion'
+            
+            #region Assert
+
+            // NUnit will assert the state change success against
+            // the expected result.
+            return success;
+
+            #endregion
+        }
+        
+        /// <summary>
         /// Test for requirements L2R2 and L1R7.
         ///
         /// SetCurrentState() should keep currentState the same and return
