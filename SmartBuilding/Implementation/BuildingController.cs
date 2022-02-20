@@ -83,10 +83,24 @@ namespace SmartBuilding.Implementation
         {
             return buildingID;
         }
-        
+
+        /// <summary>
+        /// Sets the ID of the building.
+        /// </summary>
+        /// <param name="id">The new value of the buildingID variable.</param>
         public void SetBuildingID(string id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id), "Argument Null Exception: SetBuildingID() must be provided a valid ID.");
+            }
+            
+            if (String.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentException("Argument Exception: SetBuildingID() must be provided a valid ID.");
+            }
+            
+            buildingID = id.ToLower();
         }
         
         /// <summary>
