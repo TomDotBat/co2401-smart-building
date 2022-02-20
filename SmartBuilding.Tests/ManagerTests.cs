@@ -1,4 +1,6 @@
-﻿using NSubstitute;
+﻿using System;
+using System.Reflection;
+using NSubstitute;
 using NUnit.Framework;
 using SmartBuilding.Implementation;
 
@@ -10,6 +12,77 @@ namespace SmartBuilding.Tests
     [TestFixture]
     public class ManagerTests
     {
+        #region Tests for Constructor(deviceType)
+        
+        /// <summary>
+        /// The constructor should throw an ArgumentException when the given
+        /// device type is an empty string.
+        /// </summary>
+        [Test]
+        public void Constructor_WhenGivenEmptyDeviceType_ThrowsArgumentException()
+        {
+            #region Arrange
+
+            // Giving an empty ID string will cause an ArgumentException.
+            string deviceType = "";
+
+            #endregion
+
+            #region Act & Assert
+
+            // Assert that the constructor throws an ArgumentException when given
+            // an empty string.
+            // Because we're using a substitute class we need to retrieve the
+            // ArgumentException from a TargetInvocationException.
+            TargetInvocationException exception = Assert.Throws<TargetInvocationException>(() =>
+            {
+                Substitute.For<Manager>(deviceType);
+            });
+            
+            Assert.IsNotNull(exception);
+            Assert.IsNotNull(exception.InnerException);
+            Assert.AreEqual(typeof(ArgumentException), exception.InnerException.GetType());
+
+            #endregion
+        }
+
+        /// <summary>
+        /// The constructor should throw an ArgumentNullException when the
+        /// given device type is null.
+        /// </summary>
+        [Test]
+        public void Constructor_WhenGivenNullDeviceType_ThrowsArgumentNullException()
+        {
+            #region Arrange
+
+            // Giving a null ID will cause an ArgumentNullException.
+            string deviceType = null;
+
+            #endregion
+
+            #region Act & Assert
+            
+            // Assert that the constructor throws an ArgumentNullException
+            // when given null.
+            // Because we're using a substitute class we need to retrieve the
+            // ArgumentNullException from a TargetInvocationException.
+            TargetInvocationException exception = Assert.Throws<TargetInvocationException>(() =>
+            {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                Substitute.For<Manager>(deviceType);
+            });
+            
+            Assert.IsNotNull(exception);
+            Assert.IsNotNull(exception.InnerException);
+            Assert.AreEqual(typeof(ArgumentNullException), exception.InnerException.GetType());
+
+            #endregion
+        }
+        
+        #endregion
+
+        #region Tests for GetStatus()
+        
         /// <summary>
         /// Test for requirement L3R2.
         ///
@@ -61,5 +134,43 @@ namespace SmartBuilding.Tests
 
             #endregion
         }
+        
+        #endregion
+
+        #region Tests for RegisterDevice(device)
+
+        /// <summary>
+        /// RegisterDevice() should throw an ArgumentNullException when the
+        /// given device null.
+        /// </summary>
+        [Test]
+        public void RegisterDevice_WhenGivenNull_ThrowsArgumentNullException()
+        {
+            #region Arrange
+
+            // Giving a null device will cause an ArgumentNullException.
+            IDevice device = null;
+            
+            // Create a device manager with the device type "TestDevice".
+            string deviceType = "TestDevice";
+            Manager manager = Substitute.For<Manager>(deviceType);
+
+            #endregion
+
+            #region Act & Assert
+
+            // Assert RegisterDevice() throws an ArgumentNullException
+            // when given null.
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                // ReSharper disable once ExpressionIsAlwaysNull
+                manager.RegisterDevice(device);
+            });
+
+            #endregion
+        }
+        
+
+        #endregion
     }
 }
