@@ -587,17 +587,36 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
-            // Create a BuildingController with the given starting state.
-            string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId, startState);
-
-            #endregion
+            // Create a substitute of IDoorManager that always opens
+            // all doors successfully so the open state can be reached.
+            IDoorManager doorManager = Substitute.For<IDoorManager>();
+            doorManager.OpenAllDoors().Returns(true);
             
-            #region Act & Assert
+            // Create substitutes of the other BuildingController dependencies.
+            ILightManager lightManager = Substitute.For<ILightManager>();
+            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
+            IWebService webService = Substitute.For<IWebService>();
+            IEmailService emailService = Substitute.For<IEmailService>();
+            
+            // Create a BuildingController.
+            string testId = "building-100";
+            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
+            
+            #endregion
+
+            #region Act
+            
+            // Set the starting state then change it to the test state.
+            buildingController.SetCurrentState(startState);
+            bool success = buildingController.SetCurrentState(testState);
+
+            #endregion'
+            
+            #region Assert
 
             // NUnit will assert the state change success against
             // the expected result.
-            return buildingController.SetCurrentState(testState);
+            return success;
 
             #endregion
         }
