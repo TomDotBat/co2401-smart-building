@@ -531,6 +531,17 @@ namespace SmartBuilding.Tests
         {
             #region Arrange
 
+            // Create a substitute of IDoorManager that always opens
+            // all doors successfully so the open state can be reached.
+            IDoorManager doorManager = Substitute.For<IDoorManager>();
+            doorManager.OpenAllDoors().Returns(true);
+            
+            // Create substitutes of the other BuildingController dependencies.
+            ILightManager lightManager = Substitute.For<ILightManager>();
+            IFireAlarmManager fireAlarmManager = Substitute.For<IFireAlarmManager>();
+            IWebService webService = Substitute.For<IWebService>();
+            IEmailService emailService = Substitute.For<IEmailService>();
+            
             // If we call SetCurrentState() with a valid state we can expect
             // it to be the same when we get it with GetCurrentState().
             string testState = "open";
@@ -538,7 +549,7 @@ namespace SmartBuilding.Tests
 
             // Create an instance of BuildingController.
             string testId = "building-100";
-            BuildingController buildingController = new BuildingController(testId);
+            BuildingController buildingController = new BuildingController(testId, lightManager, fireAlarmManager, doorManager, webService, emailService);
 
             #endregion
 
@@ -828,7 +839,7 @@ namespace SmartBuilding.Tests
             Exception exception = new Exception("This is a test Exception.");
             webService
                 .When(service => service.LogFireAlarm("fire alarm"))
-                .Throws(exception);
+                .Do((info => throw exception));
             
             // Create substitutes of the other BuildingController dependencies.
             ILightManager lightManager = Substitute.For<ILightManager>();
