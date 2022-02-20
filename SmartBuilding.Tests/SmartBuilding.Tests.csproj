@@ -64,6 +64,7 @@
     </ItemGroup>
     <ItemGroup>
       <Compile Include="BuildingControllerTests.cs" />
+      <Compile Include="ManagerTests.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
