@@ -883,7 +883,7 @@ namespace SmartBuilding.Tests
 
             // Assert that the state change result is false and
             // the state is the same as what we started with
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
             Assert.AreEqual("out of hours", newState);
 
             #endregion
