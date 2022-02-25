@@ -96,6 +96,6 @@ namespace SmartBuilding.Implementation
         // ReSharper disable once InconsistentNaming
         protected bool engineerRequired;
         // ReSharper disable once InconsistentNaming
-        protected List<IDevice> _devices;
+        protected readonly List<IDevice> _devices;
     }
 }
