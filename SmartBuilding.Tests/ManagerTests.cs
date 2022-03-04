@@ -13,7 +13,7 @@ namespace SmartBuilding.Tests
     public class ManagerTests
     {
         #region Tests for Constructor(deviceType)
-        
+
         /// <summary>
         /// The constructor should throw an ArgumentException when the given
         /// device type is an empty string.
@@ -81,6 +81,41 @@ namespace SmartBuilding.Tests
         
         #endregion
 
+        #region Tests for SetEngineerRequired(needsEngineer)
+
+        /// <summary>
+        /// SetEngineerRequired() should set the value of engineerRequired
+        /// to the given engineerRequired state.
+        /// </summary>
+        [Test]
+        public void SetEngineerRequired_WhenGivenEngineerRequiredState_SetsEngineerRequired()
+        {
+            #region Arrange
+
+            // Create a device manager with the device type "TestDevice".
+            string deviceType = "TestDevice";
+            Manager manager = Substitute.For<Manager>(deviceType);
+
+            #endregion
+
+            #region Act
+
+            // Set the engineerRequired state to true as the default is false.
+            manager.SetEngineerRequired(true);
+            bool actualState = manager.GetEngineerRequired();
+
+            #endregion
+            
+            #region Assert
+            
+            // Assert that the engineerRequired state is true.
+            Assert.IsTrue(actualState);
+            
+            #endregion
+        }
+
+        #endregion
+        
         #region Tests for GetStatus()
         
         /// <summary>

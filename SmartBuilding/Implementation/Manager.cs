@@ -9,16 +9,9 @@ namespace SmartBuilding.Implementation
     public abstract class Manager : IManager
     {
         /// <summary>
-        /// Instantiates a Manager with the device type "Unknown".
-        /// This constructor shouldn't normally exist, but in this
-        /// case it does for testing purposes.
-        /// </summary>
-        public Manager() : this("Unknown") { }
-        
-        /// <summary>
         /// Instantiates a Manager with the given device type.
         /// </summary>
-        /// <param name="deviceType">The type of device being managed.</param>
+        /// <param name="deviceType">The type of device being managed. The default being "Unknown".</param>
         /// <exception cref="ArgumentNullException">Thrown when the device type is null.</exception>
         /// <exception cref="ArgumentException">Thrown when the device type is an empty string or whitespace.</exception>
         protected Manager(string deviceType)
@@ -55,7 +48,16 @@ namespace SmartBuilding.Implementation
             engineerRequired = needsEngineer;
             return true;
         }
-        
+
+        /// <summary>
+        /// Gets whether or not an engineer is required for this type of device.
+        /// </summary>
+        /// <returns>True if an engineer is required, false if not.</returns>
+        public bool GetEngineerRequired()
+        {
+            return engineerRequired;
+        }
+
         /// <summary>
         /// Gets the status of the Manager.
         /// </summary>
