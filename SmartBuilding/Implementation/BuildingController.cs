@@ -125,7 +125,7 @@ namespace SmartBuilding.Implementation
         /// <returns>True if the state change was valid and successful, false if not.</returns>
         public bool SetCurrentState(string state)
         {
-            // The state is null, throw an exception.
+            // The state is null, return false and don't change anything.
             if (state == null)
             {
                 return false;
